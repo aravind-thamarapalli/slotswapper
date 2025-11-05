@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-slate-700;
+  }
+  
+  body {
+    @apply bg-slate-950 text-slate-100;
+  }
+
+  :root {
+    /* Dark Theme with Teal Accents */
+    --background: #030f18;
+    --foreground: #f1f5f9;
+    --primary: #14b8a6;
+    --primary-foreground: #020617;
+    --secondary: #1e293b;
+    --secondary-foreground: #f1f5f9;
+    --destructive: #dc2626;
+    --destructive-foreground: #fafafa;
+    --muted: #64748b;
+    --muted-foreground: #94a3b8;
+    --accent: #06b6d4;
+    --card: #0f172a;
+    --ring: #14b8a6;
+    --input: #1e293b;
+    --border: #334155;
+  }
+}
+
