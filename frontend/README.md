@@ -21,7 +21,14 @@ npm run preview
 Create a `.env` file in the frontend root:
 
 ```
-VITE_API_URL=http://localhost:5000/api
+# Base URL for the backend API (no trailing `/api` required). Example for local dev:
+VITE_API_URL=http://localhost:5000
+
+# For the deployed backend use the following production backend URL:
+# VITE_API_URL=https://slotswapper-bknd.vercel.app
+
+# The frontend is available at:
+# https://slotswapper-pink.vercel.app/
 ```
 
 ## Project Structure

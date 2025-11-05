@@ -15,7 +15,23 @@ export const useSocket = () => {
     }
 
     // Connect to backend server
-    const wsUrl = 'http://localhost:5000'
+    // Prefer VITE_WS_URL if provided; otherwise derive from VITE_API_URL.
+    // Do NOT fall back to any hardcoded production URL — require env vars to be set.
+    const rawWs = import.meta.env.VITE_WS_URL
+    let wsUrl = null
+    if (rawWs) {
+      wsUrl = rawWs.replace(/\/$/, '')
+    } else {
+      const rawApi = import.meta.env.VITE_API_URL
+      if (rawApi) {
+        wsUrl = rawApi.replace(/\/$/, '').replace(/\/api$/, '')
+      } else {
+        console.error(
+          'VITE_WS_URL and VITE_API_URL are not set. WebSocket URL not configured; socket will not connect. Please set VITE_WS_URL or VITE_API_URL in your frontend environment.',
+        )
+        return
+      }
+    }
     
     try {
       // Create socket connection with JWT authentication

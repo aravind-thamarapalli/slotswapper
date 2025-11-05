@@ -5,7 +5,18 @@ import './index.css'
 import axios from 'axios'
 
 // Configure axios to use backend API
-axios.defaults.baseURL = 'http://localhost:5000'
+// Prefer VITE_API_URL if provided (normalize it); otherwise fall back to the provided production backend URL.
+// The code below will remove any trailing `/` or a trailing `/api` so endpoints like `/api/events` work correctly.
+const rawApiUrl = import.meta.env.VITE_API_URL
+if (rawApiUrl) {
+  axios.defaults.baseURL = rawApiUrl.replace(/\/$/, '').replace(/\/api$/, '')
+} else {
+  // No hardcoded fallback. Require VITE_API_URL to be set in the environment.
+  // Leaving axios.defaults.baseURL undefined will make requests relative to the current origin.
+  console.error(
+    'VITE_API_URL is not set. Please set VITE_API_URL in your frontend environment (e.g. .env or hosting platform). Axios baseURL not configured.',
+  )
+}
 
 // Add token to all requests if it exists
 axios.interceptors.request.use((config) => {
