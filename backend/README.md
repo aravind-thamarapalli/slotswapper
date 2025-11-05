@@ -22,6 +22,25 @@ JWT_EXPIRE=7d
 NODE_ENV=development
 ```
 
+## Using MongoDB Atlas
+
+You can host your database on MongoDB Atlas instead of running a local MongoDB instance.
+
+1. Create a free cluster at https://cloud.mongodb.com.
+2. Create a database user and note the username/password.
+3. Add network access (for development you can add 0.0.0.0/0, but restrict this in production).
+4. In Atlas, click "Connect" → "Drivers" and copy the connection string (it will look like `mongodb+srv://<username>:<password>@<cluster-url>/<dbname>?retryWrites=true&w=majority`).
+5. Set the `MONGODB_URI` environment variable in your `.env` file to the Atlas connection string.
+
+Example `.env` entry:
+
+```
+MONGODB_URI=mongodb+srv://slotswapper_user:ChangeMe@cluster0.abcd123.mongodb.net/slotswapper?retryWrites=true&w=majority
+```
+
+Note: If you're using the included `docker-compose.yml`, the compose file provides a local `mongodb` service for convenience. If you switch to Atlas you can keep that service but the backend will use the `MONGODB_URI` value from your environment; you can also remove or ignore the `mongodb` service when deploying with Atlas.
+
+
 ## API Endpoints
 
 ### Authentication

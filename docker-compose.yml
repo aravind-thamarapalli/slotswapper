@@ -2,6 +2,9 @@ version: '3.9'
 
 services:
   # MongoDB database
+  # Optional local MongoDB database (used for local/dev when not using Atlas)
+  # If you plan to use MongoDB Atlas, you can ignore or remove this service and
+  # instead set `MONGODB_URI` in the backend environment to your Atlas connection string.
   mongodb:
     image: mongo:6.0-alpine
     container_name: adobe_mongodb
