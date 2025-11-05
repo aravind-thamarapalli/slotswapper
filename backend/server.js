@@ -24,7 +24,26 @@ global.socketManager = socketManager // Make socket manager globally accessible
 
 // Middleware
 app.use(helmet())
-app.use(cors())
+
+// Configure CORS to allow requests from the frontend(s).
+// `config.corsOrigin` may be a single origin or a comma-separated list of origins.
+const rawOrigins = (config.corsOrigin || '').split(',').map((s) => s.trim()).filter(Boolean)
+const allowAll = rawOrigins.length === 0 || rawOrigins.includes('*')
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow non-browser or same-origin requests when origin is undefined (e.g., server-side calls, tools)
+      if (!origin) return callback(null, true)
+      if (allowAll || rawOrigins.includes(origin)) return callback(null, true)
+      return callback(new Error('CORS policy does not allow access from the specified Origin.'), false)
+    },
+    credentials: true,
+  }),
+)
+
+// Respond to preflight requests
+app.options('*', cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
